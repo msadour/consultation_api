@@ -29,6 +29,13 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+API_APP = [
+    "app.endpoints.authentication.apps.AuthenticationConfig",
+    "app.endpoints.booking.apps.BookingConfig",
+    "app.endpoints.patient.apps.PatientConfig",
+    "app.endpoints.request_booking.apps.RequestBookingConfig",
+    "app.endpoints.surgeon.apps.SurgeonConfig",
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+INSTALLED_APPS += API_APP
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
