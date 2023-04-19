@@ -2,6 +2,7 @@ from typing import Any, Optional
 
 from django.http import QueryDict
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -40,5 +41,7 @@ class AuthTokenSerializer(serializers.Serializer):
         user: Optional[AbstractBaseUser] = self.authenticate_user(
             email=email, password=password
         )
+        token, created = Token.objects.get_or_create(user=user)
+        user.auth_token = token
 
         return user
