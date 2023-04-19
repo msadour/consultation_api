@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework.authtoken",
 ]
 
 INSTALLED_APPS += API_APP
@@ -99,6 +100,12 @@ DATABASES = {
 }
 
 AUTH_USER_MODEL = "auth.User"
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+}
 
 
 # Password validation
