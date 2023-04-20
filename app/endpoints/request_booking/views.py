@@ -13,7 +13,7 @@ from app.endpoints.surgeon.models import Surgeon
 class PatientAppointmentRequestViewSet(viewsets.ViewSet):
 
     serializer_class = AppointmentRequestSerializer
-    model = RequestAppointment
+    queryset = RequestAppointment.objects.all().order_by("-date")
 
     def create(self, request: Request) -> Response:
         data: dict = request.data.copy()
@@ -23,7 +23,7 @@ class PatientAppointmentRequestViewSet(viewsets.ViewSet):
 
     def list(self, request: Request) -> Response:
         patient: Patient = Patient.objects.filter(user_id=request.user.id).first()
-        all_requests: QuerySet = RequestAppointment.objects.filter(patient=patient)
+        all_requests: QuerySet = self.queryset.filter(patient=patient)
         data: dict = self.serializer_class(all_requests, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
@@ -35,7 +35,9 @@ class SurgeonAppointmentRequestViewSet(viewsets.ViewSet):
 
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()
-        future_requests: QuerySet = retrieve_future_requests(surgeon=surgeon)
+        future_requests: QuerySet = retrieve_future_requests(surgeon=surgeon).order_by(
+            "-date"
+        )
         data: dict = self.serializer_class(future_requests, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
