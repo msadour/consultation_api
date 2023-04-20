@@ -14,11 +14,9 @@ from app.layer.permissions import RequestSurgeonUpdatePermission
 
 class PatientAppointmentRequestViewSet(viewsets.ViewSet):
 
-    serializer_class = AppointmentRequestSerializer
-    queryset = RequestAppointment.objects.all().order_by("-date")
-    permission_classes = [
-        IsAuthenticated,
-    ]
+    serializer_class: AppointmentRequestSerializer = AppointmentRequestSerializer
+    queryset: QuerySet = RequestAppointment.objects.all().order_by("-date")
+    permission_classes: tuple = (IsAuthenticated,)
 
     def create(self, request: Request) -> Response:
         data: dict = request.data.copy()
@@ -35,9 +33,9 @@ class PatientAppointmentRequestViewSet(viewsets.ViewSet):
 
 class SurgeonAppointmentRequestViewSet(viewsets.ViewSet):
 
-    serializer_class = AppointmentRequestSerializer
-    model = RequestAppointment
-    permission_classes = [IsAuthenticated, RequestSurgeonUpdatePermission]
+    serializer_class: AppointmentRequestSerializer = AppointmentRequestSerializer
+    model: RequestAppointment = RequestAppointment
+    permission_classes: tuple = (IsAuthenticated, RequestSurgeonUpdatePermission)
 
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()

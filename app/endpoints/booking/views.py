@@ -32,11 +32,9 @@ class AppointmentManagementPatientViewSet(viewsets.ViewSet):
 
 class AppointmentManagementSurgeonViewSet(viewsets.ViewSet):
 
-    serializer_class = AppointmentSerializer
-    queryset = Appointment.objects.all().order_by("-date")
-    permission_classes = [
-        IsAuthenticated,
-    ]
+    serializer_class: AppointmentSerializer = AppointmentSerializer
+    queryset: QuerySet = Appointment.objects.all().order_by("-date")
+    permission_classes: tuple = (IsAuthenticated,)
 
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()
