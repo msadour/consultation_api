@@ -8,7 +8,11 @@ from app.endpoints.booking.models import Appointment
 from app.endpoints.booking.serializers import AppointmentSerializer
 from app.endpoints.patient.models import Patient
 from app.endpoints.surgeon.models import Surgeon
-from app.layer.permissions import AppointmentPatientDestroyPermission
+from app.layer.permissions import (
+    AppointmentPatientDestroyPermission,
+    IsPatientPermission,
+    IsSurgeonPermission,
+)
 
 
 class AppointmentManagementPatientViewSet(viewsets.ViewSet):
@@ -16,7 +20,11 @@ class AppointmentManagementPatientViewSet(viewsets.ViewSet):
     serializer_class: AppointmentSerializer = AppointmentSerializer
     model: Appointment = Appointment
     queryset: QuerySet = Appointment.objects.all().order_by("-date")
-    permission_classes: tuple = (IsAuthenticated, AppointmentPatientDestroyPermission)
+    permission_classes: tuple = (
+        IsAuthenticated,
+        IsPatientPermission,
+        AppointmentPatientDestroyPermission,
+    )
 
     def list(self, request: Request) -> Response:
         patient: Patient = Patient.objects.filter(user_id=request.user.id).first()
@@ -36,6 +44,7 @@ class AppointmentManagementSurgeonViewSet(viewsets.ViewSet):
     queryset = Appointment.objects.all().order_by("-date")
     permission_classes = [
         IsAuthenticated,
+        IsSurgeonPermission,
     ]
 
     def list(self, request: Request) -> Response:

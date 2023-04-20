@@ -28,3 +28,13 @@ class RequestSurgeonUpdatePermission(permissions.BasePermission):
 class PatientPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         return view.kwargs.get("pk") == str(request.user.id)
+
+
+class IsPatientPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return hasattr(request.user, "patient_user")
+
+
+class IsSurgeonPermission(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return hasattr(request.user, "surgeon_user")

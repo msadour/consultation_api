@@ -9,7 +9,11 @@ from app.endpoints.request_booking.models import RequestAppointment
 from app.endpoints.request_booking.serializers import AppointmentRequestSerializer
 from app.endpoints.request_booking.utils import retrieve_future_requests
 from app.endpoints.surgeon.models import Surgeon
-from app.layer.permissions import RequestSurgeonUpdatePermission
+from app.layer.permissions import (
+    RequestSurgeonUpdatePermission,
+    IsPatientPermission,
+    IsSurgeonPermission,
+)
 
 
 class PatientAppointmentRequestViewSet(viewsets.ViewSet):
@@ -18,6 +22,7 @@ class PatientAppointmentRequestViewSet(viewsets.ViewSet):
     queryset = RequestAppointment.objects.all().order_by("-date")
     permission_classes = [
         IsAuthenticated,
+        IsPatientPermission,
     ]
 
     def create(self, request: Request) -> Response:
@@ -37,7 +42,11 @@ class SurgeonAppointmentRequestViewSet(viewsets.ViewSet):
 
     serializer_class = AppointmentRequestSerializer
     model = RequestAppointment
-    permission_classes = [IsAuthenticated, RequestSurgeonUpdatePermission]
+    permission_classes = [
+        IsAuthenticated,
+        IsSurgeonPermission,
+        RequestSurgeonUpdatePermission,
+    ]
 
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()
