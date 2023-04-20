@@ -13,10 +13,10 @@ from app.layer.permissions import AppointmentPatientDestroyPermission
 
 class AppointmentManagementPatientViewSet(viewsets.ViewSet):
 
-    serializer_class = AppointmentSerializer
-    model = Appointment
-    queryset = Appointment.objects.all().order_by("-date")
-    permission_classes = [IsAuthenticated, AppointmentPatientDestroyPermission]
+    serializer_class: AppointmentSerializer = AppointmentSerializer
+    model: Appointment = Appointment
+    queryset: QuerySet = Appointment.objects.all().order_by("-date")
+    permission_classes: tuple = (IsAuthenticated, AppointmentPatientDestroyPermission)
 
     def list(self, request: Request) -> Response:
         patient: Patient = Patient.objects.filter(user_id=request.user.id).first()
@@ -24,7 +24,7 @@ class AppointmentManagementPatientViewSet(viewsets.ViewSet):
         data: dict = self.serializer_class(all_appointments, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
-    def destroy(self, request, pk=None) -> Response:
+    def destroy(self, request: Request, pk: str = None) -> Response:
         appointment: QuerySet = self.model.objects.get(id=pk)
         appointment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
