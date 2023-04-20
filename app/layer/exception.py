@@ -19,7 +19,7 @@ class WrongActionError(Exception):
         super().__init__(self.message)
 
 
-class WrongDayError(Exception):
+class WrongTimeError(Exception):
     def __init__(self, message):
         self.message = message
         self.code = 400

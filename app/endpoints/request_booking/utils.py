@@ -7,20 +7,34 @@ from app.endpoints.booking.models import Appointment
 from app.endpoints.patient.models import Patient
 from app.endpoints.request_booking.models import RequestAppointment, Status
 from app.endpoints.surgeon.models import Surgeon
-from app.layer.exception import WrongActionError, WrongDayError
+from app.layer.exception import WrongActionError, WrongTimeError
+
+
+def _add_delta(tme: datetime.time, delta: timedelta, operande: str) -> datetime.time:
+    if operande == "-":
+        return (datetime.combine(datetime.today(), tme) - delta).time()
+    else:
+        return (datetime.combine(datetime.today(), tme) + delta).time()
+
+
+def is_too_late(date_appointment, begin_at) -> bool:
+    time_appointment_minus_1h = _add_delta(
+        begin_at.time(), timedelta(hours=1), operande="-"
+    )
+    date_appointment_over = date_appointment < datetime.today()
+    time_appointment_over = time_appointment_minus_1h <= datetime.today().time()
+
+    if date_appointment_over:
+        return True
+    elif time_appointment_over:
+        return True
+
+    return False
 
 
 def check_10_minutes_around_appointment(
     appointments_surgeon: QuerySet, begin_at: datetime, finish_at: datetime
 ):
-    def _add_delta(
-        tme: datetime.time, delta: timedelta, operande: str
-    ) -> datetime.time:
-        if operande == "-":
-            return (datetime.combine(datetime.today(), tme) - delta).time()
-        else:
-            return (datetime.combine(datetime.today(), tme) + delta).time()
-
     finish_at_plus_10m: datetime.time = _add_delta(
         finish_at, timedelta(minutes=10), operande="+"
     )
@@ -46,7 +60,8 @@ def get_appointments_requested(
         begin_at_str: str = appointment["begin_at"]
         begin_at: datetime = datetime.strptime(begin_at_str, "%H:%M")
         if (
-            time(9, 00) > begin_at.time()
+            not is_too_late(date_appointment=date, begin_at=begin_at)
+            or time(9, 00) > begin_at.time()
             or begin_at.time() > time(14, 15)
             or date.weekday() > 4
         ):
@@ -76,6 +91,11 @@ def update_appointment_request(request_appointment: RequestAppointment, action: 
         surgeon = request_appointment.surgeon
         patient = request_appointment.patient
 
+        if is_too_late(date_appointment=date, begin_at=begin_at):
+            raise WrongTimeError(
+                "You cannot accept an appointment which is before today or less than 1 hour from now"
+            )
+
         appointments_surgeon: QuerySet = Appointment.objects.filter(
             surgeon=surgeon
         ).filter(date=date)
@@ -102,7 +122,7 @@ def update_appointment_request(request_appointment: RequestAppointment, action: 
             request_appointment.status = Status.ACCEPTED
             request_appointment.save()
         else:
-            raise WrongDayError(
+            raise WrongTimeError(
                 "You cannot have multiple appointment on the same day, or around 10 minutes of an existing appointment"
             )
 

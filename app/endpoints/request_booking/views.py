@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from rest_framework import viewsets, status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -20,9 +21,9 @@ class PatientAppointmentRequestViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_201_CREATED)
 
     def list(self, request: Request) -> Response:
-        patient = Patient.objects.filter(user_id=request.user.id).first()
-        all_requests = RequestAppointment.objects.filter(patient=patient)
-        data = self.serializer_class(all_requests, many=True).data
+        patient: Patient = Patient.objects.filter(user_id=request.user.id).first()
+        all_requests: QuerySet = RequestAppointment.objects.filter(patient=patient)
+        data: dict = self.serializer_class(all_requests, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
 
@@ -33,9 +34,7 @@ class SurgeonAppointmentRequestViewSet(viewsets.ViewSet):
 
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()
-        all_requests: RequestAppointment = RequestAppointment.objects.filter(
-            surgeon=surgeon
-        )
+        all_requests: QuerySet = RequestAppointment.objects.filter(surgeon=surgeon)
         data: dict = self.serializer_class(all_requests, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
