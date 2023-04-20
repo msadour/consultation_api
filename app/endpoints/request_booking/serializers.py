@@ -2,7 +2,10 @@ from rest_framework import serializers
 
 from app.endpoints.patient.models import Patient
 from app.endpoints.request_booking.models import RequestAppointment
-from app.endpoints.request_booking.utils import get_appointments_requested
+from app.endpoints.request_booking.utils import (
+    get_appointments_requested,
+    update_appointment_request,
+)
 from app.endpoints.surgeon.models import Surgeon
 
 
@@ -21,6 +24,10 @@ class AppointmentRequestSerializer(serializers.ModelSerializer):
             request_appointments=request_appointments,
         )
         RequestAppointment.objects.bulk_create(appointments_available)
+
+    def update(self, instance, validated_data):
+        action: str = validated_data.get("action")
+        update_appointment_request(request_appointment=instance, action=action)
 
     class Meta:
         model = RequestAppointment

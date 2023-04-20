@@ -12,7 +12,14 @@ class UserNotFoundError(Exception):
         super().__init__(self.message)
 
 
-class WrongDateTimeError(Exception):
+class WrongActionError(Exception):
+    def __init__(self, message):
+        self.message = message
+        self.code = 400
+        super().__init__(self.message)
+
+
+class WrongDayError(Exception):
     def __init__(self, message):
         self.message = message
         self.code = 400
