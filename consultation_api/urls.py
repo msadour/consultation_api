@@ -17,6 +17,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path("api/authentication/", include("app.endpoints.authentication.urls")),
+    path("api/portal/", include("app.endpoints.surgeon.urls")),
     path("api/booking/", include("app.endpoints.booking.urls")),
     path("api/request_booking/", include("app.endpoints.request_booking.urls")),
 ]
