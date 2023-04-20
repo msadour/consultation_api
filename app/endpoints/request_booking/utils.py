@@ -130,3 +130,11 @@ def update_appointment_request(request_appointment: RequestAppointment, action: 
         request_appointment.delete()
     else:
         raise WrongActionError("Action must be confirm or decline")
+
+
+def retrieve_future_requests(surgeon: Surgeon) -> QuerySet:
+    current_date: datetime = datetime.now()
+    future_requests: QuerySet = RequestAppointment.objects.filter(
+        surgeon=surgeon
+    ).filter(date__gte=current_date)
+    return future_requests

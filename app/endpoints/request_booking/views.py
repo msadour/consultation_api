@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from app.endpoints.patient.models import Patient
 from app.endpoints.request_booking.models import RequestAppointment
 from app.endpoints.request_booking.serializers import AppointmentRequestSerializer
+from app.endpoints.request_booking.utils import retrieve_future_requests
 from app.endpoints.surgeon.models import Surgeon
 
 
@@ -34,8 +35,8 @@ class SurgeonAppointmentRequestViewSet(viewsets.ViewSet):
 
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()
-        all_requests: QuerySet = RequestAppointment.objects.filter(surgeon=surgeon)
-        data: dict = self.serializer_class(all_requests, many=True).data
+        future_requests: QuerySet = retrieve_future_requests(surgeon=surgeon)
+        data: dict = self.serializer_class(future_requests, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
     def patch(self, request: Request) -> Response:
