@@ -50,7 +50,8 @@
     "model": "surgeon.Surgeon",
     "pk": 3,
     "fields": {
-      "user_id": 3
+      "user_id": 3,
+      "specialty":"Ophthalmology Surgery"
     }
   },
   {
@@ -68,7 +69,8 @@
     "model": "surgeon.Surgeon",
     "pk": 4,
     "fields": {
-      "user_id": 4
+      "user_id": 4,
+      "specialty":"Plastic"
     }
   },
   {
@@ -86,7 +88,8 @@
     "model": "surgeon.Surgeon",
     "pk": 5,
     "fields": {
-      "user_id": 5
+      "user_id": 5,
+      "specialty":"Orthopaedic"
     }
   }
 ]

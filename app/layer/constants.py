@@ -5,3 +5,10 @@ EXCEPTIONS_HANDLING_MIDDLEWARE: tuple = (
     WrongActionError,
     WrongTimeError,
 )
+
+SPECIALITIES: tuple = (
+    ("Plastic", "Plastic"),
+    ("Orthopaedic", "Orthopaedic"),
+    ("Ophthalmology Surgery", "Ophthalmology Surgery"),
+    ("Generalist", "Generalist"),
+)
