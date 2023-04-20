@@ -9,8 +9,7 @@ class Appointment(models.Model):
 
     surgeon = models.ForeignKey(Surgeon, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    date = models.DateField()
-    begin_at = models.TimeField()
-    finish_at = models.TimeField()
+    date = models.DateTimeField()
+    finish_at = models.DateTimeField()
 
     objects = models.Manager()

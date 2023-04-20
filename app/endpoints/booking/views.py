@@ -13,10 +13,11 @@ class AppointmentManagementPatientViewSet(viewsets.ViewSet):
 
     serializer_class = AppointmentSerializer
     model = Appointment
+    queryset = Appointment.objects.all().order_by("-date")
 
     def list(self, request: Request) -> Response:
         patient: Patient = Patient.objects.filter(user_id=request.user.id).first()
-        all_appointments: QuerySet = self.model.objects.filter(patient=patient)
+        all_appointments: QuerySet = self.queryset.filter(patient=patient)
         data: dict = self.serializer_class(all_appointments, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
 
@@ -29,10 +30,10 @@ class AppointmentManagementPatientViewSet(viewsets.ViewSet):
 class AppointmentManagementSurgeonViewSet(viewsets.ViewSet):
 
     serializer_class = AppointmentSerializer
-    model = Appointment
+    queryset = Appointment.objects.all().order_by("-date")
 
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()
-        all_appointments: QuerySet = self.model.objects.filter(surgeon=surgeon)
+        all_appointments: QuerySet = self.queryset.filter(surgeon=surgeon)
         data: dict = self.serializer_class(all_appointments, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
