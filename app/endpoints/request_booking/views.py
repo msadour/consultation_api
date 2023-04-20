@@ -2,18 +2,23 @@ from django.db.models.query import QuerySet
 from rest_framework import viewsets, status
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from app.endpoints.patient.models import Patient
 from app.endpoints.request_booking.models import RequestAppointment
 from app.endpoints.request_booking.serializers import AppointmentRequestSerializer
 from app.endpoints.request_booking.utils import retrieve_future_requests
 from app.endpoints.surgeon.models import Surgeon
+from app.layer.permissions import RequestSurgeonUpdatePermission
 
 
 class PatientAppointmentRequestViewSet(viewsets.ViewSet):
 
     serializer_class = AppointmentRequestSerializer
     queryset = RequestAppointment.objects.all().order_by("-date")
+    permission_classes = [
+        IsAuthenticated,
+    ]
 
     def create(self, request: Request) -> Response:
         data: dict = request.data.copy()
@@ -32,6 +37,7 @@ class SurgeonAppointmentRequestViewSet(viewsets.ViewSet):
 
     serializer_class = AppointmentRequestSerializer
     model = RequestAppointment
+    permission_classes = [IsAuthenticated, RequestSurgeonUpdatePermission]
 
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()
