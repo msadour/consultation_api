@@ -16,9 +16,8 @@
 2. Check this file regarding your database setup (db user, db port ...)
 3. Create a database named consultation_api
 4. Create tables and users :
-   1. Create migrations : ```python manage.py makemigrations```
-   2. Migrate : ```python manage.py migrate```
-   3. Create users : ```python manage.py initdata```
+   1. Migrate : ```python manage.py migrate```
+   2. Create users : ```python manage.py initdata```
 
 
 ## Utilisation
