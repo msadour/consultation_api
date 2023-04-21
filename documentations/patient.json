@@ -14,7 +14,7 @@
 				"url": {
 					"raw": "http://127.0.0.1:8000/api/authentication/login/"
 				},
-				"body": {"email":"robert_clark@email.com", "password":"crobert123"}
+				"body": {"email":"john_doe@email.com", "password":"crobert123"}
 			},
 			"response": {"token":"244391fdc2efdcb1b3780a7bbdf24add6476f2d4"}
 		},
@@ -170,6 +170,38 @@
 				}
 			},
 			"response": 201
+		},
+		{
+			"name": "See patient profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 244391fdc2efdcb1b3780a7bbdf24add6476f2d4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/patient/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"booking",
+						"management",
+						"patient",
+						""
+					]
+				}
+			},
+			"response": {"id":1,"user":{"id":1,"email":"john_doe@email.com","first_name":"John","last_name":"Doe"}}
 		}
 	]
 }

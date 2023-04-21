@@ -176,6 +176,14 @@
 				}
 			},
 			"response": 201
+		},
+		{
+			"name": "See surgeons",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [{"id":3,"user":{"id":3,"email":"robert_clark@email.com","first_name":"Robert","last_name":"Clack"},"specialty":"Ophthalmology Surgery"},{"id":4,"user":{"id":4,"email":"alfred_brooks@email.com","first_name":"Alfred","last_name":"Brooks"},"specialty":"Plastic"},{"id":5,"user":{"id":5,"email":"aysha_porter@email.com","first_name":"Aysha","last_name":"Porter"},"specialty":"Orthopaedic"}]
 		}
 	]
 }
