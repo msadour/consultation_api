@@ -87,7 +87,7 @@ def update_appointment_request(request_appointment: RequestAppointment, action: 
 
         if is_too_late(date_appointment=date, begin_at=begin_at):
             raise WrongTimeError(
-                "You cannot accept an appointment which is before today or less than 1 hour from now"
+                "You cannot accept an appointment which is before today or earlier than current time"
             )
 
         appointments_surgeon: QuerySet = Appointment.objects.filter(
