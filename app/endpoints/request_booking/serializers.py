@@ -1,15 +1,21 @@
 from rest_framework import serializers
 
 from app.endpoints.patient.models import Patient
+from app.endpoints.patient.serializers import PatientSerializer
 from app.endpoints.request_booking.models import RequestAppointment
 from app.endpoints.request_booking.utils import (
     get_appointments_requested,
     update_appointment_request,
 )
 from app.endpoints.surgeon.models import Surgeon
+from app.endpoints.surgeon.serializers import SurgeonSerializer
 
 
 class AppointmentRequestSerializer(serializers.ModelSerializer):
+
+    surgeon = SurgeonSerializer()
+    patient = PatientSerializer()
+
     def create(self, validated_data):
         patient_id: str = validated_data.get("patient_id")
         patient: Patient = Patient.objects.get(id=patient_id)
