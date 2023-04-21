@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 
 from app.endpoints.booking.models import Appointment
+from app.endpoints.booking.models import Status as AppointmentStatus
 from app.endpoints.patient.models import Patient
 from app.endpoints.request_booking.models import RequestAppointment, Status
 from app.endpoints.surgeon.models import Surgeon
@@ -96,7 +97,7 @@ def update_appointment_request(request_appointment: RequestAppointment, action: 
 
         appointments_surgeon: QuerySet = Appointment.objects.filter(
             surgeon=surgeon
-        ).filter(date=date)
+        ).filter(status=AppointmentStatus.BOOKED)
 
         is_appointment_already_exist: bool = appointments_surgeon.filter(
             date=date
