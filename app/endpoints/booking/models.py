@@ -1,6 +1,5 @@
 from django.db import models
 
-
 from app.endpoints.patient.models import Patient
 from app.endpoints.surgeon.models import Surgeon
 

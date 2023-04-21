@@ -1,15 +1,12 @@
 from typing import Any
 
 from django.contrib.auth import logout as django_logout
-
 from django.contrib.auth.base_user import AbstractBaseUser
-from rest_framework import viewsets, permissions
+from rest_framework import permissions, status, viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.authentication import TokenAuthentication
-from rest_framework import status
-
 
 from app.endpoints.authentication.serializers import AuthTokenSerializer
 
