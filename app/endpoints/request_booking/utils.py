@@ -25,12 +25,7 @@ def is_too_late(date_appointment: datetime, begin_at: time) -> bool:
     if date_appointment_over:
         return True
     elif date_appointment.timestamp() == datetime.today().timestamp():
-        time_appointment_minus_1h: time = _add_delta(
-            begin_at, timedelta(hours=1), operand="-"
-        )
-        time_appointment_over: bool = (
-            time_appointment_minus_1h <= datetime.today().time()
-        )
+        time_appointment_over: bool = begin_at <= datetime.today().time()
         if time_appointment_over:
             return True
 
