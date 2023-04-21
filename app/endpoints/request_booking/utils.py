@@ -131,7 +131,9 @@ def update_appointment_request(request_appointment: RequestAppointment, action: 
 
 def retrieve_future_requests(surgeon: Surgeon) -> QuerySet:
     current_date: datetime = datetime.now()
-    future_requests: QuerySet = RequestAppointment.objects.filter(
-        surgeon=surgeon
-    ).filter(date__gte=current_date)
+    future_requests: QuerySet = (
+        RequestAppointment.objects.filter(surgeon=surgeon)
+        .filter(date__gte=current_date)
+        .filter(status=Status.PENDING)
+    )
     return future_requests
