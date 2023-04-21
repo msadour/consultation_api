@@ -6,11 +6,14 @@ from app.endpoints.booking.models import Appointment
 from app.endpoints.request_booking.models import RequestAppointment
 
 
-class AppointmentPatientDestroyPermission(permissions.BasePermission):
+class AppointmentUpdatePermission(permissions.BasePermission):
     def has_object_permission(
         self, request: Request, view: ViewSet, obj: Appointment
     ) -> bool:
-        return request.user.id == obj.patient.user_id
+        return (
+            request.user.id == obj.patient.user_id
+            or request.user.id == obj.surgeon.user_id
+        )
 
 
 class RequestSurgeonUpdatePermission(permissions.BasePermission):
