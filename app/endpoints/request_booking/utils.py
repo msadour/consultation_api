@@ -33,14 +33,16 @@ def is_too_late(date_appointment: datetime, begin_at: time) -> bool:
 
 
 def check_10_minutes_around_appointment(
-    appointments_surgeon: QuerySet, begin_at: datetime, finish_at: datetime
+    appointments_surgeon_booked: QuerySet, begin_at: datetime
 ):
-    finish_at_plus_10m: datetime.time = finish_at + timedelta(minutes=10)
+    begin_at_plus_10m: datetime.time = begin_at + timedelta(minutes=10)
     begin_at_minus_10m: datetime.time = begin_at - timedelta(minutes=10)
-    query_10_minutes_around_appointment: bool = appointments_surgeon.filter(
-        Q(date__gte=finish_at_plus_10m) | Q(finish_at__lte=begin_at_minus_10m)
-    ).exists()
-    return not query_10_minutes_around_appointment
+    query_10_minutes_around_appointment: QuerySet = appointments_surgeon_booked.filter(
+        Q(date__range=[begin_at, begin_at_plus_10m])
+        | Q(finish_at__range=[begin_at_minus_10m, begin_at])
+    )
+
+    return not query_10_minutes_around_appointment.exists()
 
 
 def get_appointments_requested(
@@ -55,7 +57,7 @@ def get_appointments_requested(
         begin_at: time = date.time()
 
         if (
-            not is_too_late(date_appointment=date, begin_at=begin_at)
+            is_too_late(date_appointment=date, begin_at=begin_at)
             or time(9, 00) > begin_at
             or begin_at > time(14, 15)
             or date.weekday() > 4
@@ -90,21 +92,17 @@ def update_appointment_request(request_appointment: RequestAppointment, action: 
                 "You cannot accept an appointment which is before today or earlier than current time"
             )
 
-        appointments_surgeon: QuerySet = Appointment.objects.filter(
+        appointments_surgeon_booked: QuerySet = Appointment.objects.filter(
             surgeon=surgeon
         ).filter(status=AppointmentStatus.BOOKED)
 
-        is_appointment_already_exist: bool = appointments_surgeon.filter(
-            date=date
+        is_appointment_already_exist: bool = appointments_surgeon_booked.filter(
+            Q(date__date=date.date()) & Q(patient=patient)
         ).exists()
 
-        if (
-            is_appointment_already_exist is False
-            and check_10_minutes_around_appointment(
-                appointments_surgeon=appointments_surgeon,
-                begin_at=date,
-                finish_at=finish_at,
-            )
+        if not is_appointment_already_exist and check_10_minutes_around_appointment(
+            appointments_surgeon_booked=appointments_surgeon_booked,
+            begin_at=date,
         ):
             Appointment.objects.create(
                 surgeon=surgeon,

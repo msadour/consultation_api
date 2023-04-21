@@ -19,7 +19,7 @@ from app.layer.permissions import (
 class PatientAppointmentRequestViewSet(viewsets.ViewSet):
 
     serializer_class = AppointmentRequestSerializer
-    queryset = RequestAppointment.objects.all().order_by("-date")
+    queryset = RequestAppointment.objects.all().order_by("date")
     permission_classes = [
         IsAuthenticated,
         IsPatientPermission,
@@ -51,7 +51,7 @@ class SurgeonAppointmentRequestViewSet(viewsets.ViewSet):
     def list(self, request: Request) -> Response:
         surgeon: Surgeon = Surgeon.objects.filter(user_id=request.user.id).first()
         future_requests: QuerySet = retrieve_future_requests(surgeon=surgeon).order_by(
-            "-date"
+            "date"
         )
         data: dict = self.serializer_class(future_requests, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
