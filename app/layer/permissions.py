@@ -1,6 +1,6 @@
 from rest_framework import permissions
-from rest_framework.viewsets import ViewSet
 from rest_framework.request import Request
+from rest_framework.viewsets import ViewSet
 
 from app.endpoints.booking.models import Appointment
 from app.endpoints.request_booking.models import RequestAppointment

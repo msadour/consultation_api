@@ -1,8 +1,8 @@
 from django.db.models.query import QuerySet
-from rest_framework import viewsets, status
+from rest_framework import status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from app.endpoints.booking.models import Appointment
 from app.endpoints.booking.serializers import AppointmentSerializer

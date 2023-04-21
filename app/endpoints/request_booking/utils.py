@@ -1,7 +1,7 @@
-from datetime import datetime, timedelta, time
+from datetime import datetime, time, timedelta
 
-from django.db.models.query import QuerySet
 from django.db.models import Q
+from django.db.models.query import QuerySet
 
 from app.endpoints.booking.models import Appointment
 from app.endpoints.patient.models import Patient
