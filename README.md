@@ -24,3 +24,4 @@
 
 - Launch the server ```python manage.py runserver```
 - You can see the usage of the API for patients and surgeons in documentations folder
+- Admin panel : http://127.0.0.1:8000/admin
