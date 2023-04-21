@@ -1,0 +1,181 @@
+{
+	"info": {
+		"_postman_id": "35105008-dcec-4cec-ad87-4d21e5d99b06",
+		"name": "Surgeon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10582804"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": {"email": "robert_clark@email.com", "password": "crobert123"},
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/authentication/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"authentication",
+						"login",
+						""
+					]
+				}
+			},
+			"response": {"token":"2e1d92a3065f15c623e60b8df8dc123cff7b2010"}
+		},
+		{
+			"name": "See request",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 2e1d92a3065f15c623e60b8df8dc123cff7b2010",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/request_booking/management/surgeon/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"request_booking",
+						"management",
+						"surgeon",
+						""
+					]
+				}
+			},
+			"response": [{"id":3,"surgeon":{"id":3,"user":{"id":3,"email":"robert_clark@email.com","first_name":"Robert","last_name":"Clack"},"specialty":"Ophthalmology Surgery"},"patient":{"id":1,"user":{"id":1,"email":"john_doe@email.com","first_name":"John","last_name":"Doe"}},"date":"2023-04-26T12:00:00Z","finish_at":"2023-04-26T12:45:00Z","status":"Pending"}]
+		},
+		{
+			"name": "Confirm or cancel request",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 2e1d92a3065f15c623e60b8df8dc123cff7b2010",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": {"action": "confirm", "request_appointment_id": 3},
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/request_booking/management/surgeon/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"request_booking",
+						"management",
+						"surgeon",
+						""
+					]
+				}
+			},
+			"response": 201
+		},
+		{
+			"name": "See booking",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 2e1d92a3065f15c623e60b8df8dc123cff7b2010",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/booking/management/surgeon/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"booking",
+						"management",
+						"surgeon",
+						""
+					]
+				}
+			},
+			"response": [{"id":3,"surgeon":{"id":3,"user":{"id":3,"email":"robert_clark@email.com","first_name":"Robert","last_name":"Clack"},"specialty":"Ophthalmology Surgery"},"patient":{"id":1,"user":{"id":1,"email":"john_doe@email.com","first_name":"John","last_name":"Doe"}},"date":"2023-04-26T12:00:00Z","finish_at":"2023-04-21T12:45:00Z","status":"Booked"}]
+		},
+		{
+			"name": "cancel booking",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/booking/management/surgeon/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"booking",
+						"management",
+						"surgeon",
+						""
+					]
+				}
+			},
+			"response": 201
+		}
+	]
+}
