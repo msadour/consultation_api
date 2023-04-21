@@ -10,3 +10,6 @@ class Patient(models.Model):
     objects = models.Manager()
 
     USERNAME_FIELD = "email"
+
+    def __str__(self):
+        return f"{self.user.email} ({self.id})"

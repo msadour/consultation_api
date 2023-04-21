@@ -10,9 +10,9 @@ from app.endpoints.request_booking.serializers import AppointmentRequestSerializ
 from app.endpoints.request_booking.utils import retrieve_future_requests
 from app.endpoints.surgeon.models import Surgeon
 from app.layer.permissions import (
-    RequestSurgeonUpdatePermission,
     IsPatientPermission,
     IsSurgeonPermission,
+    RequestSurgeonUpdatePermission,
 )
 
 

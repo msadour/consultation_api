@@ -91,5 +91,18 @@
       "user_id": 5,
       "specialty":"Orthopaedic"
     }
+  },
+    {
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "email": "admin@email.com",
+      "username": "admin@email.com",
+      "password": "admin123",
+      "is_superuser": true,
+      "is_staff": true
+    }
   }
 ]

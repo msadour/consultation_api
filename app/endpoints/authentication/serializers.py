@@ -1,11 +1,8 @@
 from typing import Any, Optional
 
-from django.contrib.auth import get_user_model
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.http import QueryDict
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.models import User
+from django.http import QueryDict
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
@@ -22,7 +19,7 @@ class AuthTokenSerializer(serializers.Serializer):
     def authenticate_user(
         self, email: str = None, password: str = None
     ) -> Optional[User]:
-        user: User = get_user_model().objects.filter(email=email).first()
+        user: User = User.objects.filter(email=email).first()
 
         if user is None:
             raise AuthenticationError("Not user found with this email.")
