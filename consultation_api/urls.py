@@ -23,4 +23,5 @@ urlpatterns = [
     path("api/patient/", include("app.endpoints.patient.urls")),
     path("api/booking/", include("app.endpoints.booking.urls")),
     path("api/request_booking/", include("app.endpoints.request_booking.urls")),
+    path("api/graphql/", include("app.endpoints.graphene_schema.urls")),
 ]

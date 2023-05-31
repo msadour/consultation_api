@@ -30,7 +30,7 @@ class AppointmentManagementBaseViewSet(viewsets.ViewSet):
             user_id=request.user.id
         ).first()
         all_appointments: QuerySet = retrieve_future_appointments(
-            user_model=self.user_model, current_user=current_user
+            current_user=current_user, user_model=self.user_model
         )
         data: dict = self.serializer_class(all_appointments, many=True).data
         return Response(data=data, status=status.HTTP_200_OK)
