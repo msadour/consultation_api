@@ -9,7 +9,7 @@ from app.endpoints.surgeon.serializers import SurgeonSerializer
 
 class SurgeonAvailableViewSet(viewsets.ViewSet):
 
-    queryset: QuerySet = Surgeon.objects.all()
+    queryset: QuerySet = Surgeon.objects.all().cache()
     serializer_class: SurgeonSerializer = SurgeonSerializer
 
     def list(self, request: Request) -> Response:
