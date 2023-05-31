@@ -28,7 +28,7 @@ load_dotenv(env_path)
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework.authtoken",
     "django_q",
+    "django_elasticsearch_dsl",
+    # "django_elasticsearch_dsl_drf",
 ]
 
 INSTALLED_APPS += API_APP
@@ -166,4 +168,8 @@ Q_CLUSTER = {
         "port": 6379,
         "db": 0,
     },
+}
+
+ELASTICSEARCH_DSL = {
+    "default": {"hosts": "elasticsearch:9200"},
 }
