@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework.authtoken",
+    "django_q",
 ]
 
 INSTALLED_APPS += API_APP
@@ -149,3 +150,20 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+Q_CLUSTER = {
+    "name": "myproject",
+    "workers": 8,
+    "recycle": 500,
+    "timeout": 60,
+    "compress": True,
+    "cpu_affinity": 1,
+    "save_limit": 250,
+    "queue_limit": 500,
+    "label": "Django Q",
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "db": 0,
+    },
+}
