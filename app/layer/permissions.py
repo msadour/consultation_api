@@ -20,10 +20,9 @@ class RequestSurgeonUpdatePermission(permissions.BasePermission):
     def has_permission(self, request, view):
         if request.method == "PATCH":
             request_appointment_id: str = request.data.get("request_appointment_id")
-            request_appointment: RequestAppointment = RequestAppointment.objects.get(
-                id=request_appointment_id
-            )
-            return request_appointment.surgeon.user_id == request.user.id
+            return RequestAppointment.objects.filter(
+                id=request_appointment_id, surgeon__user_id=request.user.id
+            ).exists()
 
         return True
 

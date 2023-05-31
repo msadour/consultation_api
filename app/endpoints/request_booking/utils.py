@@ -92,7 +92,7 @@ def update_appointment_request(request_appointment: RequestAppointment, action: 
                 "You cannot accept an appointment which is before today or earlier than current time"
             )
 
-        appointments_surgeon_booked: QuerySet = Appointment.objects.filter(
+        appointments_surgeon_booked: QuerySet[Appointment] = Appointment.objects.filter(
             surgeon=surgeon
         ).filter(status=AppointmentStatus.BOOKED)
 
